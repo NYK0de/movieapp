@@ -1,4 +1,4 @@
-# movieapp, it is an app to load movies information
+# movieapp, it is an app to load a list of movies from themoviedb
 This is an android application created with jetpack and jetpack compose, applying clean architecture and multi module
 
 ## Features
