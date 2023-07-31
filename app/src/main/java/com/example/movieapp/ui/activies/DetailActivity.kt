@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.domain.models.MovieUI
+import com.example.movieapp.ui.composables.DetailView
 import com.example.movieapp.ui.composables.ErrorView
 import com.example.movieapp.ui.composables.MovieMainView
 import com.example.movieapp.ui.theme.MovieAppTheme
@@ -45,7 +46,7 @@ class DetailActivity : ComponentActivity() {
                         ErrorView(message = "Error passing data")
                     }
                     else {
-                        SpecificView(item = movieUI.fromJson())
+                        DetailView(item = movieUI.fromJson())
                     }
                 }
             }
@@ -53,51 +54,3 @@ class DetailActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalGlideComposeApi::class)
-@Composable
-fun SpecificView(item: MovieUI){
-    val scrollState = rememberScrollState()
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.Center
-    ) {
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            Text(text = "${item.originalTitle}" , style = MaterialTheme.typography.body1)
-            Spacer(modifier = Modifier.fillMaxWidth().height(16.dp))
-            GlideImage(
-                model = "https://image.tmdb.org/t/p/w500/${item.backDropPath}",
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .width(400.dp)
-                    .height(600.dp)
-                    .padding(all = 8.dp)
-                    .clip(RoundedCornerShape(20.dp))
-            )
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(top = 16.dp),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text = "released: ${item.releaseDate}", fontSize = 14.sp)
-                Text(text = "votes: ${item.voteCount}", fontSize = 14.sp)
-            }
-            Spacer(modifier = Modifier.fillMaxWidth().height(16.dp))
-            Text(text = "${item.overview}", fontSize = 12.sp, maxLines = 3)
-        }
-    }
-}
