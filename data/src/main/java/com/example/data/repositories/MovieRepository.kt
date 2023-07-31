@@ -1,5 +1,6 @@
 package com.example.data.repositories
 
+import com.example.data.BuildConfig
 import com.example.data.di.ApiMethods
 import com.example.data.dtos.MovieResponseDTO
 import com.example.data.mappers.toUI
@@ -21,7 +22,7 @@ class MovieRepository @Inject constructor(
     override fun getMovies(): Flow<MovieResult<MovieResponseUI>> {
         return flow<MovieResult<MovieResponseUI>>{
             emit(MovieResult.Loading(null))
-            val response = apiMethods.getNowPlayingMovies("7652c115abbbc1d0365be2d259600a1f")
+            val response = apiMethods.getNowPlayingMovies(BuildConfig.API_KEY)
 
             if (response.body() != null){
                 if (response.isSuccessful){

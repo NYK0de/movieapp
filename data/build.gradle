@@ -5,6 +5,13 @@ plugins {
     id 'kotlin-kapt'
 }
 
+def localPropertiesFile = rootProject.file('local.properties')
+def localProperties = new Properties()
+
+// Check if local.properties exists and load its content
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+}
 android {
     namespace 'com.example.data'
     compileSdk project.compileSdkVersion
@@ -12,6 +19,11 @@ android {
     defaultConfig {
         minSdk project.minSdkVersion
         targetSdk project.targetSdkVersion
+        // Access secure info from local.properties
+        def apiKey = localProperties.getProperty('apiKey')
+
+        // Use the secure info in your app
+        buildConfigField "String", "API_KEY", "\"$apiKey\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
